@@ -21,7 +21,6 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 	}
 	// check if the file size is greater than zero
 	if fileInfo.Size() > 0 {
-		fmt.Println("File Exists and is not empty")
 		return nil
 	} else {
 		fmt.Println("File exists but is empty")
