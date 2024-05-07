@@ -3,6 +3,7 @@ package goreloaded
 import (
 	"bufio"
 	"fmt"
+	goreloaded "goreloaded/textmodifications"
 	"os"
 	"path/filepath"
 )
@@ -50,6 +51,8 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 	scanner := bufio.NewScanner(inputFile)
 	for scanner.Scan() {
 		line := scanner.Text()
+		line = goreloaded.TextModification(line)
+		fmt.Fprintln(outputFile, line)
 	}
 	return nil
 }
