@@ -3,9 +3,10 @@ package goreloaded
 import (
 	"bufio"
 	"fmt"
-	goreloaded "goreloaded/textmodifications"
 	"os"
 	"path/filepath"
+
+	goreloaded "goreloaded/textmodifications"
 )
 
 // Function to open input file and create output file if one does not exist
@@ -14,25 +15,21 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 	if os.IsNotExist(err) {
 		fmt.Println("File does not exist")
 		return err
-
 	}
 	if err != nil {
 		fmt.Printf("Error checking the file: %s\n", err)
 		return err
 	}
 	// check if the file size is greater than zero
-	if fileInfo.Size() > 0 {
-		return nil
-	} else {
+	if fileInfo.Size() < 0 {
 		fmt.Println("File exists but is empty")
-		return err
 	}
-	inputFile, err := os.Open(inputFilepath)
 
 	if filepath.Ext(inputFilepath) != ".txt" {
 		fmt.Printf("Wrong file extension. Use .txt files")
 	}
 
+	inputFile, err := os.Open(inputFilepath)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -53,6 +50,7 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 		line := scanner.Text()
 		line = goreloaded.TextModification(line)
 		fmt.Fprintln(outputFile, line)
-	}
+		}
+
 	return nil
 }
