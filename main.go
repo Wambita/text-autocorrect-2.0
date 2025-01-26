@@ -8,13 +8,24 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 3 {
+	args := os.Args[1:]
+	inputFilepath := ""
+	outputFilepath := ""
+	if len(args) < 1 {
 		fmt.Println("usage: go run . sample.txt result.txt")
 		return
 	}
-	inputFilepath := os.Args[1]
-	outputFilepath := os.Args[2]
-	if err := goreloaded.OpenFile(inputFilepath, outputFilepath); err != nil {
+	if len(args) == 1 {
+		inputFilepath = args[0]
+		outputFilepath = "result.txt"
+	}
+	if len(args) == 2 {
+		inputFilepath = os.Args[1]
+		outputFilepath = os.Args[2]
+	}
+
+	 err := goreloaded.OpenFile(inputFilepath, outputFilepath)
+	 if  err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
