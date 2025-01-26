@@ -20,12 +20,12 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 	if fileInfo.Size() == 0 {
 		fmt.Println("File exists but is empty")
 	}
-	//check file path  extension
+	// check file path  extension
 	if filepath.Ext(inputFilepath) != ".txt" {
 		fmt.Printf("Wrong file extension. Use .txt files")
 	}
 
-	//open the inout file
+	// open the inout file
 	inputFile, err := os.Open(inputFilepath)
 	if err != nil {
 		fmt.Println(err)
@@ -41,11 +41,11 @@ func OpenFile(inputFilepath string, outputFilepath string) error {
 		fmt.Println(err)
 	}
 	defer outputFile.Close()
-	
+
 	scanner := bufio.NewScanner(inputFile)
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Fprintln(outputFile, goreloaded.TextModification(line))
+		fmt.Fprintln(outputFile, goreloaded.Textmodification(line))
 	}
 
 	return nil
