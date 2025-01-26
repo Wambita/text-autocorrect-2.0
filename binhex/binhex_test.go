@@ -2,9 +2,9 @@ package goreloaded
 
 import "testing"
 
-func TestBinToDec(t *testing.T){
-	tests := []struct{
-		testStr string
+func TestBinToDec(t *testing.T) {
+	tests := []struct {
+		testStr  string
 		expected string
 	}{
 		{"0000", "0"},
@@ -12,15 +12,15 @@ func TestBinToDec(t *testing.T){
 	}
 	for _, test := range tests {
 		output := BinToDec(test.testStr)
-		if output != test.expected{
+		if output != test.expected {
 			t.Errorf("Error(%s), /nExpected(%s) /nGot: (%s)", test.testStr, test.expected, output)
 		}
 	}
 }
 
-func TestHexToDec(t *testing.T){
-	tests := []struct{
-		testStr string
+func TestHexToDec(t *testing.T) {
+	tests := []struct {
+		testStr  string
 		expected string
 	}{
 		{"1DA6", "7590"},
@@ -28,7 +28,7 @@ func TestHexToDec(t *testing.T){
 	}
 	for _, test := range tests {
 		output := HexToDec(test.testStr)
-		if output != test.expected{
+		if output != test.expected {
 			t.Errorf("Error(%s), /nExpected(%s) /nGot: (%s)", test.testStr, test.expected, output)
 		}
 	}
