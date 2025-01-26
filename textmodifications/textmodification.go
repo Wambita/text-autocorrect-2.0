@@ -10,23 +10,98 @@ import (
 	r "goreloaded/capitalize"
 )
 
-func TextModification(line string) string {
+func binaryModifcation(line string) string {
 	// binary to decimal modification
-	binMatches := regexp.MustCompile(`([01]+)\s?\(bin\)`).FindAllStringSubmatch(line, -1)
-	for _, match := range binMatches {
-		binStr := match[1]
-		decStr := reload.BinToDec(binStr)
-		line = strings.Replace(line, binStr+" (bin)", decStr, 1)
+	binmatches := regexp.MustCompile(`(?i)([0-1]+)\s?\(bin)`).FindAllStringSubmatch(line, -1)
+	for _, match := range binmatches {
+		line = strings.Replace(line, match[1]+" (bin)", reload.BinToDec(match[1]), 1)
 	}
+	return line
+}
 
-	// Hexadecimal to decimal modification
-	hexMatches := regexp.MustCompile(`([0-9A-Fa-f]+)\s?\(hex\)`).FindAllStringSubmatch(line, -1)
-	for _, match := range hexMatches {
-		hexStr := match[1]
-		decStr := reload.HexToDec(hexStr)
-		line = strings.Replace(line, hexStr+" (hex)", decStr, 1)
-		line = strings.Replace(line, hexStr+" (hex)", decStr, 1)
+func hexadecimalModifcation(line string) string {
+	// hexadecimal to decimal modification
+	hexmatches := regexp.MustCompile(`(?i)([0-9A-Fa-f]+)\s?\(hex)`).FindAllStringSubmatch(line, -1)
+	for _, match := range hexmatches {
+		line = strings.Replace(line, match[1]+" (hex)", reload.HexToDec(match[1]), 1)
 	}
+	return line
+}
+
+// capitalize
+func capitalize(line string) string {
+	words := strings.Fields(line)
+	for i, word := range words {
+		if word == "(cap)" || word == "(CAP)" || word == "(Cap)" {
+			words[i-1] = r.Capitalize(words[i-1])
+			words = append(words[:i], words[i+1:]...)
+		} else if word == "(cap," || word == "(CAP" || word == "(Cap" {
+			numStr := strings.Trim(words[i+1], ")")
+			num, err := strconv.Atoi(numStr)
+			if err != nil {
+				fmt.Println(err)
+			}
+			if num > len(words[i-1]) {
+				fmt.Println("Error: Number larger than available words to capitalize")
+			} else {
+				for j := 0; j <= num; j++ {
+					words[i-j] = r.Capitalize(words[i-j])
+				}
+				words = append(words[:i], words[i+2:]...)
+			}
+
+		}
+	}
+	return line
+}
+
+// uppercase
+func upperCase(line string) string {
+	words := strings.Fields(line)
+	for i, word := range words {
+		if word == "(low)" || word == "(LOW)" || word == "(Low)" {
+			words[i-1] = strings.ToLower(words[i-1])
+			words = append(words[:i], words[i+1:]...)
+		} else if word == "(low," || word == "(LOW," || word == "(Low," {
+			numStr := strings.Trim(words[i+1], ")")
+			num, err := strconv.Atoi(numStr)
+			if err != nil {
+				fmt.Println(err)
+			}
+			if num > len(words[i-1]) {
+				fmt.Println("Error: Number larger than available words to change to lowercase")
+			} else {
+				for j := 0; j <= num; j++ {
+					words[i-j] = strings.ToLower(words[i-j])
+				}
+				words = append(words[:i], words[i+2:]...)
+			}
+
+		}
+	}
+	return line
+}
+
+// lower case
+func lowerCase(line string) string {
+}
+
+// punctuation modification
+func punctuationModification(line string) {
+}
+
+// vowels
+func vowelModification(line string) {
+}
+
+func TextModification(line string) string {
+	// Hexadecimal to decimal modification
+	// hexMatches := regexp.MustCompile(`([0-9A-Fa-f]+)\s?\(hex\)`).FindAllStringSubmatch(line, -1)
+	// for _, match := range hexMatches {
+	// 	hexStr := match[1]
+	// 	decStr := reload.HexToDec(hexStr)
+	// 	line = strings.Replace(line, hexStr+" (hex)", decStr, 1)
+	// }
 
 	// up, low and cap modifications
 	words := strings.Fields(line)
